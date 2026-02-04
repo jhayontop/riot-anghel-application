@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riot RP Anghel Application</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #1e1e2f;
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+    h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+        color: #ff6b6b;
+    }
+    input, textarea, button {
+        display: block;
+        margin: 10px auto;
+        width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+    }
+    button {
+        background-color: #4a90e2;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<h1>RIOT RP ANGHEL APPLICATION</h1>
+
+<button id="startBtn">Start Application</button>
+
+<div id="formContainer" style="display:none;">
+    <h2>Bakit gusto mo maging anghel sa game ko?</h2>
+    <textarea id="answer1" placeholder="Sumulat ng 3 sentences" rows="4"></textarea>
+
+    <h2>Ano ang matutulong mo sa game?</h2>
+    <textarea id="answer2" placeholder="Sumulat ng 5 sentences" rows="5"></textarea>
+
+    <h2>Ano ano ang alam mong rules sa RP?</h2>
+    <textarea id="answer3" placeholder="Sumulat ng 10 rules" rows="6"></textarea>
+
+    <button id="submitBtn">Submit</button>
+</div>
+
+<script>
+const startBtn = document.getElementById('startBtn');
+const formContainer = document.getElementById('formContainer');
+
+startBtn.addEventListener('click', () => {
+    startBtn.style.display = 'none';
+    formContainer.style.display = 'block';
+});
+
+const submitBtn = document.getElementById('submitBtn');
+
+submitBtn.addEventListener('click', () => {
+    const answer1 = document.getElementById('answer1').value;
+    const answer2 = document.getElementById('answer2').value;
+    const answer3 = document.getElementById('answer3').value;
+
+    if(!answer1 || !answer2 || !answer3){
+        alert('Paki-fill lahat ng fields!');
+        return;
+    }
+
+    // Discord Webhook URL (palitan ng sarili mong URL)
+    const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL";
+
+    const payload = {
+        content: `**Bagong Application Submission**\n\n**Bakit gusto maging anghel:**\n${answer1}\n\n**Matutulong sa game:**\n${answer2}\n\n**Alam na rules sa RP:**\n${answer3}`
+    };
+
+    fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(() => {
+        alert("Successfully submitted!");
+        formContainer.style.display = "none";
+    })
+    .catch(err => {
+        console.error(err);
+        alert("May error, subukan ulit!");
+    });
+});
+</script>
+
+</body>
+</html>
